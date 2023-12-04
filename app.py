@@ -51,7 +51,7 @@ def predict():
     try:
         current_dir = os.getcwd()
         current_dir = current_dir + r'\audio'
-        file_path = os.path.join(r'.\audio', 'audio.mp3')
+        file_path = os.path.join('audio', 'audio.mp3')
         file.save(file_path)
 
         # Preprocess the audio file
