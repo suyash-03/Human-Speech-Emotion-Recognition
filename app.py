@@ -73,7 +73,6 @@ def predict():
             4: 'Neutral',
             5: 'Pleasant Surprised',
             6: 'Sad'
-
         }
 
         return jsonify({'prediction': emotion_map[max_index]})
