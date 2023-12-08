@@ -81,7 +81,8 @@ def predict():
         return jsonify({'prediction': reversed_dict[max_index]})
 
     except Exception as e:
-        return jsonify({'error': str(e)})
+        print(e)
+        return jsonify({'error': 'Error Reading Audio File-Please Input a valid Audio File'})
 
 
 if __name__ == "__main__":
