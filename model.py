@@ -48,6 +48,8 @@ if __name__ == "__main__":
 
     df['label'].value_counts()
 
+
+
     emotion = 'fear'
     path = np.array(df['speech'][df['label']==emotion])[0]
     data, sampling_rate = librosa.load(path)

@@ -14,9 +14,16 @@ def hello_world():
 
 
 # Load the pre-trained model
-pretrained_model = create_LSTM()
-pretrained_model.load_weights('./saved_weights/model_best.h5')
-pretrained_model.trainable = False
+# pretrained_model = create_LSTM()
+# pretrained_model.load_weights('./saved_weights/speech_classification.h5')
+# pretrained_model.trainable = False
+
+# Load the saved model
+loaded_model = load_model('./saved_weights/speech_classification.h5')
+
+# Now, you can use the loaded_model for making predictions on new data
+# For example, if you have new data in X_test, you can do:
+
 
 # Specify the directory to save uploaded audio files
 UPLOAD_FOLDER = 'audio'
@@ -32,7 +39,6 @@ def preprocess_audio(file_path):
     mfcc_features = mfcc_features.T
     mfcc_features = np.mean(mfcc_features, axis=0)
     reshaped_features = np.expand_dims(mfcc_features, axis=-1)
-
     return reshaped_features
 
 
@@ -56,26 +62,20 @@ def predict():
 
         # Preprocess the audio file
         processed_audio = preprocess_audio(file_path)
+        print(processed_audio.shape)
 
         # Make prediction using the pre-trained model
         input_data = np.array([processed_audio])
-        prediction = pretrained_model.predict(input_data)
+        prediction = loaded_model.predict(input_data)
 
         # Process the prediction as needed
         print(prediction)
         max_index = np.argmax(prediction[0])
 
-        emotion_map = {
-            0: 'Angry',
-            1: 'Disgust',
-            2: 'Fear',
-            3: 'Happy',
-            4: 'Neutral',
-            5: 'Pleasant Surprised',
-            6: 'Sad'
-        }
+        emotion_map = {'fear': 0, 'angry': 1, 'disgust': 2, 'neutral': 3, 'sad': 4, 'ps': 5, 'happy': 6}
+        reversed_dict = {value: key for key, value in emotion_map.items()}
 
-        return jsonify({'prediction': emotion_map[max_index]})
+        return jsonify({'prediction': reversed_dict[max_index]})
 
     except Exception as e:
         return jsonify({'error': str(e)})
