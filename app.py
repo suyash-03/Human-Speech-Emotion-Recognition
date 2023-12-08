@@ -3,7 +3,7 @@ import numpy as np
 from flask import Flask, request, jsonify
 from tensorflow.keras.models import load_model
 import librosa
-from model import create_LSTM
+
 
 app = Flask(__name__)
 
